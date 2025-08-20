@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/changesets/V1__create_carrier_table.yaml
+  - include:
+      file: liquibase/changesets/V2__create_route_table.yaml
+  - include:
+      file: liquibase/changesets/V3__create_user_table.yaml
+  - include:
+      file: liquibase/changesets/V4__create_ticket_table.yaml
+  - include:
+      file: liquibase/changesets/V5__create_refresh_token_table.yaml
+  - include:
+      file: liquibase/changesets/V6__fill_tables_with_test_data.yaml
+  #TODO возможно понадобятся индексы

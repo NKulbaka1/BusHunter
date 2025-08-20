@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_route_table
+      author: Nikita Kulbaka
+      changes:
+        - createTable:
+            tableName: routes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: departure_point
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: destination_point
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duration_minutes
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: carrier_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_route_carrier
+                    references: carriers(id)

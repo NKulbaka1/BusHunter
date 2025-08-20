@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: BusHunter
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/bus_hunter_db"
+    username: postgres
+    password: postgres
+
+  autoconfigure: #TODO
+    exclude: "org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration"
+
+  liquibase:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    change-log: classpath:liquibase/db.changelog-master.yaml
+    default-schema: public
+
+jwt: #TODO
+  secret: "b03b690b4c1317d77084236c319ae315856cd86be82e35a3aea75a2d2d07b2a3c6a2fea880ecb549475d19fe80d2f8a4334f77137dab708f60b72cf0ec7070d5"
+  access-token-expiration-ms: 900000
+  refresh-token-expiration-ms: 604800000
+

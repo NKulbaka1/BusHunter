@@ -1,0 +1,311 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert_test_data
+      author: Nikita Kulbaka
+      changes:
+        - insert:
+            tableName: carriers
+            columns:
+              - column:
+                  name: name
+                  value: "Автолайн"
+              - column:
+                  name: phone
+                  value: "+7 (495) 111-22-33"
+        - insert:
+            tableName: carriers
+            columns:
+              - column:
+                  name: name
+                  value: "Экспресс-Авто"
+              - column:
+                  name: phone
+                  value: "+7 (495) 222-33-44"
+        - insert:
+            tableName: carriers
+            columns:
+              - column:
+                  name: name
+                  value: "МегаБус"
+              - column:
+                  name: phone
+                  value: "+7 (495) 333-44-55"
+        - insert:
+            tableName: carriers
+            columns:
+              - column:
+                  name: name
+                  value: "Комфорт Транс"
+              - column:
+                  name: phone
+                  value: "+7 (495) 444-55-66"
+
+        - insert:
+            tableName: routes
+            columns:
+              - column:
+                  name: departure_point
+                  value: "Москва"
+              - column:
+                  name: destination_point
+                  value: "Санкт-Петербург"
+              - column:
+                  name: duration_minutes
+                  value: 480
+              - column:
+                  name: carrier_id
+                  value: 1
+
+        - insert:
+            tableName: routes
+            columns:
+              - column:
+                  name: departure_point
+                  value: "Москва"
+              - column:
+                  name: destination_point
+                  value: "Казань"
+              - column:
+                  name: duration_minutes
+                  value: 720
+              - column:
+                  name: carrier_id
+                  value: 2
+
+        - insert:
+            tableName: routes
+            columns:
+              - column:
+                  name: departure_point
+                  value: "Санкт-Петербург"
+              - column:
+                  name: destination_point
+                  value: "Москва"
+              - column:
+                  name: duration_minutes
+                  value: 480
+              - column:
+                  name: carrier_id
+                  value: 3
+
+        - insert:
+            tableName: routes
+            columns:
+              - column:
+                  name: departure_point
+                  value: "Казань"
+              - column:
+                  name: destination_point
+                  value: "Москва"
+              - column:
+                  name: duration_minutes
+                  value: 720
+              - column:
+                  name: carrier_id
+                  value: 4
+
+        - insert:
+            tableName: routes
+            columns:
+              - column:
+                  name: departure_point
+                  value: "Москва"
+              - column:
+                  name: destination_point
+                  value: "Нижний Новгород"
+              - column:
+                  name: duration_minutes
+                  value: 360
+              - column:
+                  name: carrier_id
+                  value: 1
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "1A"
+              - column:
+                  name: price
+                  value: 2500.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-21 08:00:00"
+              - column:
+                  name: route_id
+                  value: 1
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "2B"
+              - column:
+                  name: price
+                  value: 2500.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-21 08:00:00"
+              - column:
+                  name: route_id
+                  value: 1
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "3C"
+              - column:
+                  name: price
+                  value: 2800.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-21 10:00:00"
+              - column:
+                  name: route_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "4D"
+              - column:
+                  name: price
+                  value: 2800.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-21 10:00:00"
+              - column:
+                  name: route_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "5A"
+              - column:
+                  name: price
+                  value: 2300.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-22 09:00:00"
+              - column:
+                  name: route_id
+                  value: 3
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "6B"
+              - column:
+                  name: price
+                  value: 2300.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-22 09:00:00"
+              - column:
+                  name: route_id
+                  value: 3
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "7C"
+              - column:
+                  name: price
+                  value: 1900.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-23 14:00:00"
+              - column:
+                  name: route_id
+                  value: 5
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "8D"
+              - column:
+                  name: price
+                  value: 1900.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-23 14:00:00"
+              - column:
+                  name: route_id
+                  value: 5
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "1A"
+              - column:
+                  name: price
+                  value: 2700.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-24 16:00:00"
+              - column:
+                  name: route_id
+                  value: 4
+              - column:
+                  name: user_id
+                  value: NULL
+
+        - insert:
+            tableName: tickets
+            columns:
+              - column:
+                  name: seat_number
+                  value: "2B"
+              - column:
+                  name: price
+                  value: 2700.00
+              - column:
+                  name: departure_date_time
+                  value: "2024-08-24 16:00:00"
+              - column:
+                  name: route_id
+                  value: 4
+              - column:
+                  name: user_id
+                  value: NULL
