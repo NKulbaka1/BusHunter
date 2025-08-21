@@ -54,13 +54,13 @@ public class TicketServiceImpl implements TicketService {
 
     public TicketResponse getTicketById(Long id) {
         Ticket ticket = ticketDao.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Билет не найден"));
+                .orElseThrow(() -> new EntityNotFoundException("Билет с айди " + id + " не найден"));
         return ticketMapper.toResponse(ticket);
     }
 
     public TicketResponse createTicket(TicketRequest request) {
         if (!routeDao.existsById(request.routeId())) {
-            throw new EntityNotFoundException("Маршрут не найден");
+            throw new EntityNotFoundException("Маршрут с айди " + request.routeId() + " не найден");
         }
 
         Ticket ticket = ticketMapper.toModel(request);
@@ -71,11 +71,11 @@ public class TicketServiceImpl implements TicketService {
 
     public TicketResponse updateTicket(Long id, TicketRequest request) {
         if (!ticketDao.existsById(id)) {
-            throw new EntityNotFoundException("Билет не найден");
+            throw new EntityNotFoundException("Билет с айди " + id + " не найден");
         }
 
         if (!routeDao.existsById(request.routeId())) {
-            throw new EntityNotFoundException("Маршрут не найден");
+            throw new EntityNotFoundException("Маршрут с айди " + request.routeId() + " не найден");
         }
 
         Ticket ticket = ticketMapper.toModel(request);
@@ -85,11 +85,16 @@ public class TicketServiceImpl implements TicketService {
         return getTicketById(id);
     }
 
-    public void deleteTicket(Long id) {
-        if (!ticketDao.existsById(id)) {
-            throw new EntityNotFoundException("Билет не найден");
-        }
+    public TicketResponse deleteTicket(Long id) {
+        Ticket ticket = getTicketModelById(id);
+
         ticketDao.delete(id);
+
+        return ticketMapper.toResponse(ticket);
     }
 
+    private Ticket getTicketModelById(Long id) {
+        return ticketDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Билет с айди " + id + " не найден"));
+    }
 }

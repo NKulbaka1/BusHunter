@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class CarrierServiceImpl implements CarrierService {
     private final CarrierDao carrierDao;
     private final CarrierMapper carrierMapper;
+
     @Override
     public List<CarrierResponse> getAllCarriers() {
         return carrierDao.findAll().stream()
@@ -54,10 +55,16 @@ public class CarrierServiceImpl implements CarrierService {
     }
 
     @Override
-    public void deleteCarrier(Long id) {
-        if (!carrierDao.existsById(id)) {
-            throw new EntityNotFoundException("Перевозчик с айди " + id + " не найден");
-        }
+    public CarrierResponse deleteCarrier(Long id) {
+        Carrier carrier = getCarrierModelById(id);
+
         carrierDao.delete(id);
+
+        return carrierMapper.toResponse(carrier);
+    }
+
+    private Carrier getCarrierModelById(Long id) {
+        return carrierDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Перевозчик с айди " + id + " не найден"));
     }
 }

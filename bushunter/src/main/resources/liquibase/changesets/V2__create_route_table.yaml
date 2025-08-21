@@ -33,5 +33,11 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_route_carrier
-                    references: carriers(id)
+
+        - addForeignKeyConstraint:
+            baseTableName: routes
+            baseColumnNames: carrier_id
+            constraintName: fk_route_carrier
+            referencedTableName: carriers
+            referencedColumnNames: id
+            onDelete: CASCADE

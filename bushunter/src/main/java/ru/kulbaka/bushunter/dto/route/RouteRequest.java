@@ -8,5 +8,5 @@ public record RouteRequest(
         @NotBlank String departurePoint,
         @NotBlank String destinationPoint,
         @NotNull Long carrierId,
-        @Positive Integer durationMinutes
+        @Positive @NotNull Integer durationMinutes
 ) {}

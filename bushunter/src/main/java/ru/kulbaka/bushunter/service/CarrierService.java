@@ -2,6 +2,7 @@ package ru.kulbaka.bushunter.service;
 
 import ru.kulbaka.bushunter.dto.carrier.CarrierRequest;
 import ru.kulbaka.bushunter.dto.carrier.CarrierResponse;
+import ru.kulbaka.bushunter.dto.route.RouteResponse;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface CarrierService {
 
     CarrierResponse updateCarrier(Long id, CarrierRequest request);
 
-    void deleteCarrier(Long id);
+    CarrierResponse deleteCarrier(Long id);
 }

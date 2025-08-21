@@ -92,10 +92,24 @@ public class TicketDaoImpl implements TicketDao {
     @Override
     public List<Ticket> findAll() {
         String sql = """
-                SELECT t.*, r.*, c.* 
-                FROM tickets t 
-                JOIN routes r ON t.route_id = r.id 
-                JOIN carriers c ON r.carrier_id = c.id 
+                SELECT
+                    t.id AS ticket_id,
+                    t.seat_number,
+                    t.price,
+                    t.departure_date_time,
+                    t.user_id,
+                    t.route_id,
+                    r.id AS route_id,
+                    r.departure_point,
+                    r.destination_point,
+                    r.duration_minutes,
+                    r.carrier_id,
+                    c.id AS carrier_id,
+                    c.name AS carrier_name,
+                    c.phone AS carrier_phone
+                FROM tickets t
+                JOIN routes r ON t.route_id = r.id
+                JOIN carriers c ON r.carrier_id = c.id
                 ORDER BY t.departure_date_time
                 """;
         return jdbcTemplate.query(sql, ticketMapper::mapRow);
@@ -104,7 +118,21 @@ public class TicketDaoImpl implements TicketDao {
     @Override
     public Optional<Ticket> findById(Long id) {
         String sql = """
-                SELECT t.*, r.*, c.*
+                SELECT
+                    t.id AS ticket_id,
+                    t.seat_number,
+                    t.price,
+                    t.departure_date_time,
+                    t.user_id,
+                    t.route_id,
+                    r.id AS route_id,
+                    r.departure_point,
+                    r.destination_point,
+                    r.duration_minutes,
+                    r.carrier_id,
+                    c.id AS carrier_id,
+                    c.name AS carrier_name,
+                    c.phone AS carrier_phone
                 FROM tickets t
                 JOIN routes r ON t.route_id = r.id
                 JOIN carriers c ON r.carrier_id = c.id

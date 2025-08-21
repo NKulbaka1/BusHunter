@@ -28,7 +28,7 @@ import java.util.List;
 public class TicketController {
     private final TicketService ticketService;
 
-    @GetMapping
+    @GetMapping("/get-all-available")
     public List<TicketResponse> getAvailableTickets(
             @RequestParam(required = false) LocalDateTime dateFrom,
             @RequestParam(required = false) LocalDateTime dateTo,
@@ -73,8 +73,7 @@ public class TicketController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTicket(@PathVariable Long id) {
-        ticketService.deleteTicket(id);
+    public TicketResponse deleteTicket(@PathVariable Long id) {
+        return ticketService.deleteTicket(id);
     }
 }

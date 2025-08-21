@@ -14,5 +14,5 @@ public interface TicketService {
     TicketResponse getTicketById(Long id);
     TicketResponse createTicket(TicketRequest request);
     TicketResponse updateTicket(Long id, TicketRequest request);
-    void deleteTicket(Long id);
+    TicketResponse deleteTicket(Long id);
 }

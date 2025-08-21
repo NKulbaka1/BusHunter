@@ -21,10 +21,18 @@ public class RouteDaoImpl implements RouteDao {
     @Override
     public List<Route> findAll() {
         String sql = """
-                SELECT r.*, c.id as carrier_id, c.name as carrier_name, c.phone as carrier_phone
-                FROM routes r
-                JOIN carriers c ON r.carrier_id = c.id
-                ORDER BY r.departure_point
+                SELECT
+                    r.id as route_id,
+                    r.departure_point,
+                    r.destination_point,
+                    r.duration_minutes,
+                    r.carrier_id,
+                    c.id as carrier_id,
+                    c.name as carrier_name,
+                    c.phone as carrier_phone
+                  FROM routes r
+                  JOIN carriers c ON r.carrier_id = c.id
+                  ORDER BY r.departure_point
                 """;
         return jdbcTemplate.query(sql, routeMapper::mapRow);
     }
@@ -32,7 +40,15 @@ public class RouteDaoImpl implements RouteDao {
     @Override
     public Optional<Route> findById(Long id) {
         String sql = """
-                SELECT r.*, c.id as carrier_id, c.name as carrier_name, c.phone as carrier_phone
+                SELECT
+                    r.id as route_id,
+                    r.departure_point,
+                    r.destination_point,
+                    r.duration_minutes,
+                    r.carrier_id,
+                    c.id as carrier_id,
+                    c.name as carrier_name,
+                    c.phone as carrier_phone
                 FROM routes r
                 JOIN carriers c ON r.carrier_id = c.id
                 WHERE r.id = :id

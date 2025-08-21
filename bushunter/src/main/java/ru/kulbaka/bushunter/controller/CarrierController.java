@@ -46,8 +46,7 @@ public class CarrierController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCarrier(@PathVariable Long id) {
-        carrierService.deleteCarrier(id);
+    public CarrierResponse deleteCarrier(@PathVariable Long id) {
+        return carrierService.deleteCarrier(id);
     }
 }

@@ -65,10 +65,16 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void deleteRoute(Long id) {
-        if (!routeDao.existsById(id)) {
-            throw new EntityNotFoundException("Маршрут не найден");
-        }
+    public RouteResponse deleteRoute(Long id) {
+        Route route = getRouteModelById(id);
+
         routeDao.delete(id);
+
+        return routeMapper.toResponse(route);
+    }
+
+    private Route getRouteModelById(Long id) {
+        return routeDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Маршрут не найден"));
     }
 }

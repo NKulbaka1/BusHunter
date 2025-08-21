@@ -10,5 +10,5 @@ public interface RouteService {
     RouteResponse getRouteById(Long id);
     RouteResponse createRoute(RouteRequest request);
     RouteResponse updateRoute(Long id, RouteRequest request);
-    void deleteRoute(Long id);
+    RouteResponse deleteRoute(Long id);
 }

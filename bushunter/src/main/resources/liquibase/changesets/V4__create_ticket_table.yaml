@@ -33,12 +33,24 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_ticket_route
-                    references: routes(id)
               - column:
                   name: user_id
                   type: BIGINT
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_ticket_user
-                    references: users(id)
+
+        - addForeignKeyConstraint:
+            baseTableName: tickets
+            baseColumnNames: route_id
+            constraintName: fk_ticket_route
+            referencedTableName: routes
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: tickets
+            baseColumnNames: user_id
+            constraintName: fk_ticket_user
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: SET NULL
