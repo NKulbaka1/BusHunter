@@ -9,10 +9,7 @@ import java.util.List;
 public interface CarrierService {
     List<CarrierResponse> getAllCarriers();
     CarrierResponse getCarrierById(Long id);
-
     CarrierResponse createCarrier(CarrierRequest request);
-
     CarrierResponse updateCarrier(Long id, CarrierRequest request);
-
     CarrierResponse deleteCarrier(Long id);
 }

@@ -3,6 +3,7 @@ package ru.kulbaka.bushunter.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,17 +63,20 @@ public class TicketController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public TicketResponse createTicket(@Valid @RequestBody TicketRequest request) {
         return ticketService.createTicket(request);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public TicketResponse updateTicket(@PathVariable Long id, @Valid @RequestBody TicketRequest request) {
         return ticketService.updateTicket(id, request);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public TicketResponse deleteTicket(@PathVariable Long id) {
         return ticketService.deleteTicket(id);
     }

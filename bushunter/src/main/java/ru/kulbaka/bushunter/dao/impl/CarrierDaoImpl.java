@@ -5,15 +5,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.kulbaka.bushunter.dao.CarrierDao;
-import ru.kulbaka.bushunter.mapper.CarrierMapper;
 import ru.kulbaka.bushunter.model.Carrier;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class CarrierDaoImpl implements CarrierDao {
     private final NamedParameterJdbcTemplate jdbcTemplate;

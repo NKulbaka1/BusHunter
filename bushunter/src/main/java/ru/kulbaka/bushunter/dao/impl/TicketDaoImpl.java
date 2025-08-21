@@ -3,10 +3,9 @@ package ru.kulbaka.bushunter.dao.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.kulbaka.bushunter.dao.TicketDao;
 import ru.kulbaka.bushunter.mapper.TicketMapper;
 import ru.kulbaka.bushunter.model.Ticket;
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class TicketDaoImpl implements TicketDao {
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -65,6 +64,36 @@ public class TicketDaoImpl implements TicketDao {
         return jdbcTemplate.query(sql, params, ticketMapper::mapRow);
     }
 
+    //@Override
+    public List<Ticket> findByUserId(Long userId) {
+        String sql = """
+                SELECT
+                    t.id AS ticket_id,
+                    t.seat_number,
+                    t.price,
+                    t.departure_date_time,
+                    t.user_id,
+                    t.route_id,
+                    r.id AS route_id,
+                    r.departure_point,
+                    r.destination_point,
+                    r.duration_minutes,
+                    r.carrier_id,
+                    c.id AS carrier_id,
+                    c.name AS carrier_name,
+                    c.phone AS carrier_phone
+                FROM tickets t
+                JOIN routes r ON t.route_id = r.id
+                JOIN carriers c ON r.carrier_id = c.id
+                WHERE t.user_id = :userId
+                ORDER BY t.departure_date_time
+                """;
+
+        return jdbcTemplate.query(sql,
+                new MapSqlParameterSource("userId", userId),
+                ticketMapper::mapRow);
+    }
+
     public boolean checkTicketPurchased(Long id) {
         String sql = """
                 SELECT COUNT(*) FROM tickets
@@ -84,7 +113,6 @@ public class TicketDaoImpl implements TicketDao {
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("ticketId", ticketId)
                 .addValue("userId", userId);
-
 
         jdbcTemplate.update(sql, params);
     }

@@ -5,7 +5,7 @@ spring:
   application:
     name: BusHunter
   datasource:
-    url: "jdbc:postgresql://localhost:5432/bus_hunter_db"
+    url: "jdbc:postgresql://postgres:5432/bus_hunter_db"
     username: postgres
     password: postgres
 

@@ -9,6 +9,7 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -27,7 +28,7 @@ databaseChangeLog:
                     references: users(id)
                     onDelete: CASCADE
               - column:
-                  name: expiry_date
+                  name: expiration_date
                   type: TIMESTAMP
                   constraints:
                     nullable: false

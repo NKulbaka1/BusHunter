@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.kulbaka.bushunter.dao.RouteDao;
 import ru.kulbaka.bushunter.mapper.RouteMapper;
 import ru.kulbaka.bushunter.model.Route;
@@ -12,7 +12,7 @@ import ru.kulbaka.bushunter.model.Route;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class RouteDaoImpl implements RouteDao {
     private final NamedParameterJdbcTemplate jdbcTemplate;
