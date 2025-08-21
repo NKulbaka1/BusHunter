@@ -64,7 +64,7 @@ public class TicketDaoImpl implements TicketDao {
         return jdbcTemplate.query(sql, params, ticketMapper::mapRow);
     }
 
-    //@Override
+    @Override
     public List<Ticket> findByUserId(Long userId) {
         String sql = """
                 SELECT

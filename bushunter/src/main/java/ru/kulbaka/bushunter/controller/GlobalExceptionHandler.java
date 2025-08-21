@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex) {
-        log.error(ex.getMessage());
+        log.info(ex.getMessage());
         Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult().getFieldErrors().forEach(error -> {
@@ -34,21 +34,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIllegalArgumentException(IllegalArgumentException ex) {
-        log.error(ex.getMessage());
+        log.info(ex.getMessage());
         return ex.getMessage();
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleEntityNotFoundException(EntityNotFoundException ex) {
-        log.error(ex.getMessage());
+        log.info(ex.getMessage());
         return ex.getMessage();
     }
 
     @ExceptionHandler(TicketAlreadyPurchasedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleTicketAlreadyPurchasedException(TicketAlreadyPurchasedException ex) {
-        log.error(ex.getMessage());
+        log.info(ex.getMessage());
         return ex.getMessage();
     }
 }

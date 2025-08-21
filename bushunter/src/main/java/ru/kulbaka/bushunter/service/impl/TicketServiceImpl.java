@@ -40,24 +40,37 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void purchaseTicket(Long ticketId, Long userId) {
+        if (!ticketDao.existsById(ticketId)) {
+            throw new EntityNotFoundException("Билет с айди " + ticketId + " не найден");
+        }
         if (ticketDao.checkTicketPurchased(ticketId)) {
             throw new TicketAlreadyPurchasedException(ticketId);
         }
         ticketDao.purchaseTicket(ticketId, userId);
     }
 
+    @Override
+    public List<TicketResponse> getUserTickets(Long userId) {
+        return ticketDao.findByUserId(userId).stream()
+                .map(ticketMapper::toResponse)
+                .toList();
+    }
+
+    @Override
     public List<TicketResponse> getAllTickets() {
         return ticketDao.findAll().stream()
                 .map(ticketMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
+    @Override
     public TicketResponse getTicketById(Long id) {
         Ticket ticket = ticketDao.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Билет с айди " + id + " не найден"));
         return ticketMapper.toResponse(ticket);
     }
 
+    @Override
     public TicketResponse createTicket(TicketRequest request) {
         if (!routeDao.existsById(request.routeId())) {
             throw new EntityNotFoundException("Маршрут с айди " + request.routeId() + " не найден");
@@ -69,6 +82,7 @@ public class TicketServiceImpl implements TicketService {
         return ticketMapper.toResponse(ticket);
     }
 
+    @Override
     public TicketResponse updateTicket(Long id, TicketRequest request) {
         if (!ticketDao.existsById(id)) {
             throw new EntityNotFoundException("Билет с айди " + id + " не найден");
@@ -85,6 +99,7 @@ public class TicketServiceImpl implements TicketService {
         return getTicketById(id);
     }
 
+    @Override
     public TicketResponse deleteTicket(Long id) {
         Ticket ticket = getTicketModelById(id);
 

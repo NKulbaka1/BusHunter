@@ -16,6 +16,7 @@ public interface TicketDao {
             int page,
             int size
     );
+    List<Ticket> findByUserId(Long userId);
     void purchaseTicket(Long ticketId, Long userId);
     boolean checkTicketPurchased(Long id);
     List<Ticket> findAll();

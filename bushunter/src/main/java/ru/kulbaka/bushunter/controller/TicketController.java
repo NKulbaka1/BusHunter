@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.kulbaka.bushunter.dto.ticket.TicketRequest;
 import ru.kulbaka.bushunter.dto.ticket.TicketResponse;
 import ru.kulbaka.bushunter.model.TicketSearchParams;
+import ru.kulbaka.bushunter.security.util.AuthenticationUtils;
 import ru.kulbaka.bushunter.service.TicketService;
 
 //import java.security.Principal;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,6 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TicketController {
     private final TicketService ticketService;
+    private final AuthenticationUtils authUtils;
 
     @GetMapping("/get-all-available")
     public List<TicketResponse> getAvailableTickets(
@@ -46,10 +49,15 @@ public class TicketController {
     }
 
     @PostMapping("/{ticketId}/purchase")
-    public void purchaseTicket(@PathVariable Long ticketId/*,  Principal principal*/) {
-        //Long userId = getUserIdFromPrincipal(principal);
-        Long userId = 1L;
+    public void purchaseTicket(@PathVariable Long ticketId, Principal principal) {
+        Long userId = authUtils.getCurrentUserId(principal);
         ticketService.purchaseTicket(ticketId, userId);
+    }
+
+    @GetMapping("/my-tickets")
+    public List<TicketResponse> getUserTickets(Principal principal) {
+        Long userId = authUtils.getCurrentUserId(principal);
+        return ticketService.getUserTickets(userId);
     }
 
     @GetMapping
