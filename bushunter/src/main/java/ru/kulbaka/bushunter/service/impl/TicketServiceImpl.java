@@ -2,6 +2,7 @@ package ru.kulbaka.bushunter.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kulbaka.bushunter.dao.RouteDao;
 import ru.kulbaka.bushunter.dao.TicketDao;
 import ru.kulbaka.bushunter.dto.ticket.TicketRequest;
@@ -27,6 +28,7 @@ public class TicketServiceImpl implements TicketService {
     private final TicketPurchaseProducer ticketPurchaseProducer;
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketResponse> getAvailableTickets(TicketSearchParams searchParams, int page, int size) {
         return ticketDao.findAvailableTickets(
                         searchParams.dateFrom(),
@@ -42,6 +44,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional
     public TicketResponse purchaseTicket(Long ticketId, Long userId) {
         Ticket ticket = getTicketModelById(ticketId);
         if (ticket.getUserId() != null) {
@@ -59,6 +62,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketResponse> getUserTickets(Long userId) {
         return ticketDao.findByUserId(userId).stream()
                 .map(ticketMapper::toResponse)
@@ -66,6 +70,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TicketResponse> getAllTickets() {
         return ticketDao.findAll().stream()
                 .map(ticketMapper::toResponse)
@@ -73,6 +78,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TicketResponse getTicketById(Long id) {
         Ticket ticket = ticketDao.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Билет с айди " + id + " не найден"));
@@ -80,6 +86,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional
     public TicketResponse createTicket(TicketRequest request) {
         if (!routeDao.existsById(request.routeId())) {
             throw new EntityNotFoundException("Маршрут с айди " + request.routeId() + " не найден");
@@ -87,11 +94,13 @@ public class TicketServiceImpl implements TicketService {
 
         Ticket ticket = ticketMapper.toModel(request);
         Long id = ticketDao.create(ticket);
+
         Ticket savedTicket = getTicketModelById(id);
         return ticketMapper.toResponse(savedTicket);
     }
 
     @Override
+    @Transactional
     public TicketResponse updateTicket(Long id, TicketRequest request) {
         if (!ticketDao.existsById(id)) {
             throw new EntityNotFoundException("Билет с айди " + id + " не найден");
@@ -109,6 +118,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional
     public TicketResponse deleteTicket(Long id) {
         Ticket ticket = getTicketModelById(id);
 

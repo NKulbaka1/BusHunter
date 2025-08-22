@@ -2,6 +2,7 @@ package ru.kulbaka.bushunter.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kulbaka.bushunter.dao.CarrierDao;
 import ru.kulbaka.bushunter.dao.RouteDao;
 import ru.kulbaka.bushunter.dto.route.RouteRequest;
@@ -22,6 +23,7 @@ public class RouteServiceImpl implements RouteService {
     private final CarrierDao carrierDao;
 
     @Override
+    @Transactional(readOnly = true)
     public List<RouteResponse> getAllRoutes() {
         return routeDao.findAll().stream()
                 .map(routeMapper::toResponse)
@@ -29,6 +31,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RouteResponse getRouteById(Long id) {
         Route route = routeDao.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Маршрут не найден"));
@@ -36,6 +39,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @Transactional
     public RouteResponse createRoute(RouteRequest request) {
         if (!carrierDao.existsById(request.carrierId())) {
             throw new EntityNotFoundException("Перевозчик не найден");
@@ -43,11 +47,13 @@ public class RouteServiceImpl implements RouteService {
 
         Route route = routeMapper.toModel(request);
         Long id = routeDao.create(route);
-        route.setId(id);
-        return routeMapper.toResponse(route);
+
+        Route savedRoute = getRouteModelById(id);
+        return routeMapper.toResponse(savedRoute);
     }
 
     @Override
+    @Transactional
     public RouteResponse updateRoute(Long id, RouteRequest request) {
         if (!routeDao.existsById(id)) {
             throw new EntityNotFoundException("Маршрут не найден");
@@ -65,6 +71,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @Transactional
     public RouteResponse deleteRoute(Long id) {
         Route route = getRouteModelById(id);
 

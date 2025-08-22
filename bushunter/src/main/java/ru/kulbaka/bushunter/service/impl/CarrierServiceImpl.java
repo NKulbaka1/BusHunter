@@ -2,6 +2,7 @@ package ru.kulbaka.bushunter.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kulbaka.bushunter.dao.CarrierDao;
 import ru.kulbaka.bushunter.dto.carrier.CarrierRequest;
 import ru.kulbaka.bushunter.dto.carrier.CarrierResponse;
@@ -20,6 +21,7 @@ public class CarrierServiceImpl implements CarrierService {
     private final CarrierMapper carrierMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<CarrierResponse> getAllCarriers() {
         return carrierDao.findAll().stream()
                 .map(carrierMapper::toResponse)
@@ -27,6 +29,7 @@ public class CarrierServiceImpl implements CarrierService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CarrierResponse getCarrierById(Long id) {
         Carrier carrier = carrierDao.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Перевозчик с айди " + id + " не найден"));
@@ -34,14 +37,17 @@ public class CarrierServiceImpl implements CarrierService {
     }
 
     @Override
+    @Transactional
     public CarrierResponse createCarrier(CarrierRequest request) {
         Carrier carrier = carrierMapper.toModel(request);
         Long id = carrierDao.create(carrier);
-        carrier.setId(id);
-        return carrierMapper.toResponse(carrier);
+
+        Carrier savedCarrier = getCarrierModelById(id);
+        return carrierMapper.toResponse(savedCarrier);
     }
 
     @Override
+    @Transactional
     public CarrierResponse updateCarrier(Long id, CarrierRequest request) {
         if (!carrierDao.existsById(id)) {
             throw new EntityNotFoundException("Перевозчик с айди " + id + " не найден");
@@ -55,6 +61,7 @@ public class CarrierServiceImpl implements CarrierService {
     }
 
     @Override
+    @Transactional
     public CarrierResponse deleteCarrier(Long id) {
         Carrier carrier = getCarrierModelById(id);
 
