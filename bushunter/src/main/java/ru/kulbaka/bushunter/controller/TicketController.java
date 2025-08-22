@@ -49,9 +49,9 @@ public class TicketController {
     }
 
     @PostMapping("/{ticketId}/purchase")
-    public void purchaseTicket(@PathVariable Long ticketId, Principal principal) {
+    public TicketResponse purchaseTicket(@PathVariable Long ticketId, Principal principal) {
         Long userId = authUtils.getCurrentUserId(principal);
-        ticketService.purchaseTicket(ticketId, userId);
+        return ticketService.purchaseTicket(ticketId, userId);
     }
 
     @GetMapping("/my-tickets")

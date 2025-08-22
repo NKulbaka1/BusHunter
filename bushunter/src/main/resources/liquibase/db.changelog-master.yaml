@@ -11,4 +11,3 @@ databaseChangeLog:
       file: liquibase/changesets/V5__create_refresh_token_table.yaml
   - include:
       file: liquibase/changesets/V6__fill_tables_with_test_data.yaml
-  #TODO возможно понадобятся индексы

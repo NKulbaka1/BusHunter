@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TicketService {
     List<TicketResponse> getAvailableTickets(TicketSearchParams searchParams, int page, int size);
-    void purchaseTicket(Long ticketId, Long userId);
+    TicketResponse purchaseTicket(Long ticketId, Long userId);
     List<TicketResponse> getUserTickets(Long userId);
     List<TicketResponse> getAllTickets();
     TicketResponse getTicketById(Long id);

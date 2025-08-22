@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.kulbaka.bushunter.dto.ticket.TicketRequest;
 import ru.kulbaka.bushunter.dto.ticket.TicketResponse;
+import ru.kulbaka.bushunter.kafka.model.TicketPurchaseEvent;
 import ru.kulbaka.bushunter.mapper.RouteMapper;
 import ru.kulbaka.bushunter.mapper.TicketMapper;
 import ru.kulbaka.bushunter.model.Route;
@@ -48,6 +49,19 @@ public class TicketMapperImpl implements TicketMapper {
                 ticket.getDepartureDateTime(),
                 ticket.getSeatNumber(),
                 ticket.getPrice()
+        );
+    }
+
+    @Override
+    public TicketPurchaseEvent toEvent(Ticket ticket) {
+        return new TicketPurchaseEvent(
+                ticket.getId(),
+                ticket.getSeatNumber(),
+                ticket.getPrice(),
+                ticket.getDepartureDateTime(),
+                ticket.getUserId(),
+                ticket.getRoute().getId(),
+                ticket.getRoute().getCarrier().getId()
         );
     }
 
