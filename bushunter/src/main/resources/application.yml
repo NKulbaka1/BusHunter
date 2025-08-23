@@ -36,6 +36,19 @@ kafka:
   topic:
     ticket-purchases: ticket-purchases
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /v3/api-docs
+    enabled: true
+    display-request-duration: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+
 jwt:
   secret: "b03b690b4c1317d77084236c319ae315856cd86be82e35a3aea75a2d2d07b2a3c6a2fea880ecb549475d19fe80d2f8a4334f77137dab708f60b72cf0ec7070d5"
   access-token-expiration-ms: 900000

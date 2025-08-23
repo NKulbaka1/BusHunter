@@ -1,4 +1,4 @@
-package ru.kulbaka.bushunter.controller;
+package ru.kulbaka.bushunter.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleEntityNotFoundException(EntityNotFoundException ex) {
         log.info(ex.getMessage());
         return ex.getMessage();
