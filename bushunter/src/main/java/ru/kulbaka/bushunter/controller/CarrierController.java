@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/carriers")
 @RequiredArgsConstructor
-@Tag(name = "Carriers")
+@Tag(name = "Перевозчики")
 public class CarrierController {
     private final CarrierService carrierService;
 

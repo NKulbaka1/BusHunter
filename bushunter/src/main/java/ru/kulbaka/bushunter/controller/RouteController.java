@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/routes")
 @RequiredArgsConstructor
-@Tag(name = "Routes")
+@Tag(name = "Маршруты")
 public class RouteController {
     private final RouteService routeService;
 

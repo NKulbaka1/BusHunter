@@ -33,7 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/tickets")
 @RequiredArgsConstructor
-@Tag(name = "Tickets")
+@Tag(name = "Билеты")
 public class TicketController {
     private final TicketService ticketService;
     private final AuthenticationUtils authUtils;
