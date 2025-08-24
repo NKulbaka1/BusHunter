@@ -27,12 +27,12 @@ public class RouteMapperImpl implements RouteMapper {
         Route route = new Route();
 
         Carrier carrier = new Carrier();
-        carrier.setId(request.carrierId());
+        carrier.setId(request.getCarrierId());
         route.setCarrier(carrier);
 
-        route.setDeparturePoint(request.departurePoint());
-        route.setDestinationPoint(request.destinationPoint());
-        route.setDurationMinutes(request.durationMinutes());
+        route.setDeparturePoint(request.getDeparturePoint());
+        route.setDestinationPoint(request.getDestinationPoint());
+        route.setDurationMinutes(request.getDurationMinutes());
 
         return route;
     }

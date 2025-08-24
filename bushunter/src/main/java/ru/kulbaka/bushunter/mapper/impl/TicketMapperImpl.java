@@ -27,12 +27,12 @@ public class TicketMapperImpl implements TicketMapper {
         Ticket ticket = new Ticket();
 
         Route route = new Route();
-        route.setId(request.routeId());
+        route.setId(request.getRouteId());
         ticket.setRoute(route);
 
-        ticket.setDepartureDateTime(request.departureDateTime());
-        ticket.setSeatNumber(request.seatNumber());
-        ticket.setPrice(request.price());
+        ticket.setDepartureDateTime(request.getDepartureDateTime());
+        ticket.setSeatNumber(request.getSeatNumber());
+        ticket.setPrice(request.getPrice());
 
         return ticket;
     }

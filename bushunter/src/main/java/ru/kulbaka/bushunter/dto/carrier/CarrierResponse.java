@@ -1,7 +1,14 @@
 package ru.kulbaka.bushunter.dto.carrier;
 
-public record CarrierResponse(
-        Long id,
-        String name,
-        String phone
-) {}
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CarrierResponse {
+    private Long id;
+    private String name;
+    private String phone;
+}

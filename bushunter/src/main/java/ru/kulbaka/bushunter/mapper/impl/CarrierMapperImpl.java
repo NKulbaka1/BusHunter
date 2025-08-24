@@ -19,8 +19,8 @@ public class CarrierMapperImpl implements CarrierMapper {
         }
 
         Carrier carrier = new Carrier();
-        carrier.setName(request.name());
-        carrier.setPhone(request.phone());
+        carrier.setName(request.getName());
+        carrier.setPhone(request.getPhone());
 
         return carrier;
     }
@@ -45,4 +45,3 @@ public class CarrierMapperImpl implements CarrierMapper {
         return carrier;
     }
 }
-

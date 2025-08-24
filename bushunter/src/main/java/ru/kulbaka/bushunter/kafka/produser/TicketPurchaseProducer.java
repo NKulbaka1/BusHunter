@@ -20,7 +20,7 @@ public class TicketPurchaseProducer {
             kafkaTemplate.send(TOPIC, event);
             log.info("Отправлено сообщение о покупке билета в топик " + event);
         } catch (Exception e) {
-            log.error("Ошибка отправки сообщения " + event + " в топик");
+            log.error("Ошибка отправки сообщения " + event + " в топик: " + e.getMessage());
         }
     }
 }

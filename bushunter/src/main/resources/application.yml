@@ -4,6 +4,15 @@ server:
 spring:
   application:
     name: BusHunter
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      cache-null-values: false
 
   datasource:
     url: jdbc:postgresql://localhost:5432/bus_hunter_db

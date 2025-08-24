@@ -6,8 +6,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.kulbaka.bushunter.exception.EntityNotFoundException;
-import ru.kulbaka.bushunter.exception.TicketAlreadyPurchasedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,22 +31,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIllegalArgumentException(IllegalArgumentException ex) {
+    public ErrorResponse handleIllegalArgumentException(IllegalArgumentException ex) {
         log.info(ex.getMessage());
-        return ex.getMessage();
+        return new ErrorResponse(ex.getMessage());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleEntityNotFoundException(EntityNotFoundException ex) {
+    public ErrorResponse handleEntityNotFoundException(EntityNotFoundException ex) {
         log.info(ex.getMessage());
-        return ex.getMessage();
+        return new ErrorResponse(ex.getMessage());
     }
 
     @ExceptionHandler(TicketAlreadyPurchasedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleTicketAlreadyPurchasedException(TicketAlreadyPurchasedException ex) {
+    public ErrorResponse handleTicketAlreadyPurchasedException(TicketAlreadyPurchasedException ex) {
         log.info(ex.getMessage());
-        return ex.getMessage();
+        return new ErrorResponse(ex.getMessage());
     }
 }

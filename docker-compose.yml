@@ -9,10 +9,13 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/bus_hunter_db
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
       SERVER_PORT: 8080
     depends_on:
       - postgres
       - kafka
+      - redis
 
   bushunter-kafka-consumer:
     build: ./bushunter-kafka-consumer
@@ -22,7 +25,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-kafka-consumer:5432/bus_hunter_kafka_consumer_db
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       KAFKA_CONSUMER_GROUP: bushunter-consumer-group
       SERVER_PORT: 8081
@@ -49,6 +52,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: bus_hunter_kafka_consumer_db
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0

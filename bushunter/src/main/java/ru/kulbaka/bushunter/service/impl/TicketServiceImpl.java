@@ -1,6 +1,9 @@
 package ru.kulbaka.bushunter.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kulbaka.bushunter.dao.RouteDao;
@@ -17,7 +20,6 @@ import ru.kulbaka.bushunter.model.TicketSearchParams;
 import ru.kulbaka.bushunter.service.TicketService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +47,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "userTickets", key = "#userId")
+    })
     public TicketResponse purchaseTicket(Long ticketId, Long userId) {
         Ticket ticket = getTicketModelById(ticketId);
         if (ticket.getUserId() != null) {
@@ -63,6 +68,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "userTickets", key = "#userId")
     public List<TicketResponse> getUserTickets(Long userId) {
         return ticketDao.findByUserId(userId).stream()
                 .map(ticketMapper::toResponse)
@@ -88,8 +94,8 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public TicketResponse createTicket(TicketRequest request) {
-        if (!routeDao.existsById(request.routeId())) {
-            throw new EntityNotFoundException("Маршрут с айди " + request.routeId() + " не найден");
+        if (!routeDao.existsById(request.getRouteId())) {
+            throw new EntityNotFoundException("Маршрут с айди " + request.getRouteId() + " не найден");
         }
 
         Ticket ticket = ticketMapper.toModel(request);
@@ -106,8 +112,8 @@ public class TicketServiceImpl implements TicketService {
             throw new EntityNotFoundException("Билет с айди " + id + " не найден");
         }
 
-        if (!routeDao.existsById(request.routeId())) {
-            throw new EntityNotFoundException("Маршрут с айди " + request.routeId() + " не найден");
+        if (!routeDao.existsById(request.getRouteId())) {
+            throw new EntityNotFoundException("Маршрут с айди " + request.getRouteId() + " не найден");
         }
 
         Ticket ticket = ticketMapper.toModel(request);
@@ -125,6 +131,11 @@ public class TicketServiceImpl implements TicketService {
         ticketDao.delete(id);
 
         return ticketMapper.toResponse(ticket);
+    }
+
+    @Override
+    @CacheEvict(value = "userTickets", key = "#userId")
+    public void evictUserTicketsCache(Long userId) {
     }
 
     private Ticket getTicketModelById(Long id) {

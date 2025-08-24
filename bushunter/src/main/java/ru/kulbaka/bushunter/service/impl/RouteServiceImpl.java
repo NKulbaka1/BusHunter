@@ -41,7 +41,7 @@ public class RouteServiceImpl implements RouteService {
     @Override
     @Transactional
     public RouteResponse createRoute(RouteRequest request) {
-        if (!carrierDao.existsById(request.carrierId())) {
+        if (!carrierDao.existsById(request.getCarrierId())) {
             throw new EntityNotFoundException("Перевозчик не найден");
         }
 
@@ -59,7 +59,7 @@ public class RouteServiceImpl implements RouteService {
             throw new EntityNotFoundException("Маршрут не найден");
         }
 
-        if (!carrierDao.existsById(request.carrierId())) {
+        if (!carrierDao.existsById(request.getCarrierId())) {
             throw new EntityNotFoundException("Перевозчик не найден");
         }
 
