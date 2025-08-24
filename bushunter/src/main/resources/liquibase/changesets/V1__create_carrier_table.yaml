@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_carrier_table
+      author: Nikita Kulbaka
+      changes:
+        - createTable:
+            tableName: carriers
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: VARCHAR(20)

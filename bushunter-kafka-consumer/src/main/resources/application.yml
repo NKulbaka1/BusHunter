@@ -1,0 +1,35 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: bushunter-kafka-consumer
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bus_hunter_kafka_consumer_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    change-log: classpath:liquibase/db.changelog-master.yaml
+    default-schema: public
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+
+kafka:
+  topic:
+    ticket-purchases: ticket-purchases
+  consumer-group: bushunter-consumer-group
+
+logging:
+  level:
+    org.apache.kafka: info

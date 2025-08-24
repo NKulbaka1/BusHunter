@@ -1,0 +1,82 @@
+package ru.kulbaka.bushunter.mapper.impl;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import ru.kulbaka.bushunter.dto.ticket.TicketRequest;
+import ru.kulbaka.bushunter.dto.ticket.TicketResponse;
+import ru.kulbaka.bushunter.kafka.model.TicketPurchaseEvent;
+import ru.kulbaka.bushunter.mapper.RouteMapper;
+import ru.kulbaka.bushunter.mapper.TicketMapper;
+import ru.kulbaka.bushunter.model.Route;
+import ru.kulbaka.bushunter.model.Ticket;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+@Component
+@RequiredArgsConstructor
+public class TicketMapperImpl implements TicketMapper {
+    private final RouteMapper routeMapper;
+
+    @Override
+    public Ticket toModel(TicketRequest request) {
+        if (request == null) {
+            return null;
+        }
+
+        Ticket ticket = new Ticket();
+
+        Route route = new Route();
+        route.setId(request.getRouteId());
+        ticket.setRoute(route);
+
+        ticket.setDepartureDateTime(request.getDepartureDateTime());
+        ticket.setSeatNumber(request.getSeatNumber());
+        ticket.setPrice(request.getPrice());
+
+        return ticket;
+    }
+
+    @Override
+    public TicketResponse toResponse(Ticket ticket) {
+        if (ticket == null) {
+            return null;
+        }
+
+        return new TicketResponse(
+                ticket.getId(),
+                routeMapper.toResponse(ticket.getRoute()),
+                ticket.getDepartureDateTime(),
+                ticket.getSeatNumber(),
+                ticket.getPrice()
+        );
+    }
+
+    @Override
+    public TicketPurchaseEvent toEvent(Ticket ticket) {
+        return new TicketPurchaseEvent(
+                ticket.getId(),
+                ticket.getSeatNumber(),
+                ticket.getPrice(),
+                ticket.getDepartureDateTime(),
+                ticket.getUserId(),
+                ticket.getRoute().getId(),
+                ticket.getRoute().getCarrier().getId()
+        );
+    }
+
+    @Override
+    public Ticket mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+        Ticket ticket = new Ticket();
+        ticket.setId(resultSet.getLong("ticket_id"));
+        ticket.setDepartureDateTime(resultSet.getTimestamp("departure_date_time").toLocalDateTime());
+        ticket.setSeatNumber(resultSet.getString("seat_number"));
+        ticket.setPrice(resultSet.getDouble("price"));
+        ticket.setUserId(resultSet.getObject("user_id", Long.class));
+
+        Route route = routeMapper.mapRow(resultSet, rowNum);
+        ticket.setRoute(route);
+
+        return ticket;
+    }
+}

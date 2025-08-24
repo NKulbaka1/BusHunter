@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: BusHunter
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      cache-null-values: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bus_hunter_db
+    username: postgres
+    password: postgres
+
+  autoconfigure:
+    exclude: "org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration"
+
+  liquibase:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    change-log: classpath:liquibase/db.changelog-master.yaml
+    default-schema: public
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        acks: all
+        retries: 3
+        delivery.timeout.ms: 30000
+        request.timeout.ms: 5000
+
+kafka:
+  topic:
+    ticket-purchases: ticket-purchases
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /v3/api-docs
+    enabled: true
+    display-request-duration: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+
+jwt:
+  secret: "b03b690b4c1317d77084236c319ae315856cd86be82e35a3aea75a2d2d07b2a3c6a2fea880ecb549475d19fe80d2f8a4334f77137dab708f60b72cf0ec7070d5"
+  access-token-expiration-ms: 900000
+  refresh-token-expiration-ms: 604800000
+

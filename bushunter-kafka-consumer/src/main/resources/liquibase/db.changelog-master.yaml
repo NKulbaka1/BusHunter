@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/changesets/V1__create_purchased_tickets_table.yaml
